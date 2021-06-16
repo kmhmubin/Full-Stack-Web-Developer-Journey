@@ -1,25 +1,14 @@
-div {
-  width: 200px;
-  height: 200px;
+img {
+  width: 30%;
+  margin: calc(10% / 6);
 }
 
-#one {
-  background-color: #1d3557;
-  border-width: 5px;
-  border-color: #e76f51;
-  border-style: solid;
-}
-
-#two {
-  background-color: #457b9d;
-  border-width: 3px;
-  border-color: #e76f51;
-  border-style: dashed;
-  border-left-width: 8px;
-}
-
-#three {
-  background-color: #a8dadc;
-  border-width: 4px;
-  border-color: #e76f51;
+nav {
+  font-family: "Raleway", sans-serif;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  border-bottom: 2px solid #f1f1f1;
+  width: 30%;
+  margin-left: calc(10% / 6);
+  padding: 1.2em 0;
 }
