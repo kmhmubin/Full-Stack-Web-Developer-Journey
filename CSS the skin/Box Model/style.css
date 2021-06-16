@@ -1,5 +1,25 @@
 div {
   width: 200px;
   height: 200px;
-  background-color: antiquewhite;
+}
+
+#one {
+  background-color: #1d3557;
+  border-width: 5px;
+  border-color: #e76f51;
+  border-style: solid;
+}
+
+#two {
+  background-color: #457b9d;
+  border-width: 3px;
+  border-color: #e76f51;
+  border-style: dashed;
+  border-left-width: 8px;
+}
+
+#three {
+  background-color: #a8dadc;
+  border-width: 4px;
+  border-color: #e76f51;
 }
