@@ -1,10 +1,32 @@
-function numberToAccountingString(number) {
-  if (number == null) return;
-  if (number < 0) return `(${Math.abs(number)}`;
-  return number.toString();
+// pet class with a name, age  and eath method
+class Pet {
+  constructor(name, age) {
+    console.log(`Pet constructor called`);
+    this.name = name;
+    this.age = age;
+  }
+  eat() {
+    return `${this.name} is eating`;
+  }
 }
 
-console.log(numberToAccountingString(undefined));
-console.log(numberToAccountingString(0));
-console.log(numberToAccountingString(10));
-console.log(numberToAccountingString(-5));
+class Cat extends Pet {
+  constructor(name, age, livesLeft = 9) {
+    console.log(`Cat constructor called`);
+    super(name, age);
+    this.livesLeft = livesLeft;
+  }
+  meow() {
+    return "MEOWWWWWW!!";
+  }
+}
+
+// dog class extending the Pet class
+class Dog extends Pet {
+  bark() {
+    return "WOOF!!!";
+  }
+  eat() {
+    return `${this.name} scrafs his food!`;
+  }
+}
