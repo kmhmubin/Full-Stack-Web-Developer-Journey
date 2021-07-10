@@ -24,7 +24,7 @@ app.get("/r/:subreddit", (req, res) => {
       ...data,
     });
   } else {
-    res.render("404.ejs", { subreddit });
+    res.render("notfound", { subreddit });
   }
 });
 
