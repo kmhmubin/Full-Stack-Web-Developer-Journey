@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 // root route
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home", { name: "Home" });
 });
 
 app.get("/r/:subreddit", (req, res) => {
