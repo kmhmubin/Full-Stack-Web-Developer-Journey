@@ -37,6 +37,13 @@ app.get("/comments/new", (req, res) => {
   res.render("comments/new");
 });
 
+// base request for new comment post
+app.post("/comments", (req, res) => {
+  const { username, comment } = req.body;
+  comments.push({ username, comment });
+  res.redirect("/comments");
+});
+
 app.listen(3000, () => {
   console.log("Server running on PORT 3000");
 });
