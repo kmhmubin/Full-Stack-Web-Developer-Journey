@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>New Comment</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">New Comment Form</h1>
+
+        <form action="">
+          <section class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label for="username" class="label">Enter Username</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input
+                  class="input is-primary"
+                  type="text"
+                  id="username"
+                  placeholder="username"
+                  name="username"
+                />
+              </div>
+            </div>
+          </section>
+          <section class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label for="comment" class="label">Enter Comment</label>
+            </div>
+
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <textarea
+                    name="comment"
+                    class="textarea is-info"
+                    id="comment"
+                    placeholder="Enter your comment"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-primary">Submit</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
