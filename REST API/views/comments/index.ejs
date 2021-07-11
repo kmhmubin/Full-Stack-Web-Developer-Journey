@@ -38,6 +38,14 @@
               </span>
               <span>Edit</span>
             </a>
+            <form action="/comments/<%= c.id %>?_method=DELETE" method="post">
+              <button class="button is-danger">
+                <span class="icon">
+                  <i class="fas fa-trash"></i>
+                </span>
+                <span>Delete</span>
+              </button>
+            </form>
           </li>
           <% } %>
         </ul>

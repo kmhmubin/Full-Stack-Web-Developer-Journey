@@ -9,6 +9,13 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <section class="section">
@@ -19,6 +26,21 @@
           <b class="has-text-weight-semibold"> <%= comment.username %> </b>
         </h2>
       </div>
+
+      <a href="/comments/<%= comment.id %>/edit " class="button is-warning">
+        <span class="icon">
+          <i class="fas fa-edit"></i>
+        </span>
+        <span>Edit</span>
+      </a>
+      <form action="/comments/<%= comment.id %>?_method=DELETE" method="post">
+        <button class="button is-danger">
+          <span class="icon">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+        </button>
+      </form>
     </section>
     <section class="section">
       <a href="/comments" class="button is-link">Back to Comment</a>
