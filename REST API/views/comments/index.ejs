@@ -26,11 +26,17 @@
           <li>
             <%= c.comment %> -
             <b class="has-text-weight-semibold"> <%= c.username %> </b>
-            <a href="/comments/<%= c.id %> " class="button is-warning">
+            <a href="/comments/<%= c.id %> " class="button is-success">
               <span class="icon">
                 <i class="fas fa-info-circle"></i>
               </span>
               <span>View</span>
+            </a>
+            <a href="/comments/<%= c.id %>/edit " class="button is-warning">
+              <span class="icon">
+                <i class="fas fa-edit"></i>
+              </span>
+              <span>Edit</span>
             </a>
           </li>
           <% } %>

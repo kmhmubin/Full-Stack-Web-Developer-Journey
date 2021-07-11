@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Comment</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Edit Comment Form</h1>
+
+        <form action="/comments/<%= comment.id %>?_method=PATCH" method="POST">
+          <section class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label for="comment" class="label">Enter Comment</label>
+            </div>
+
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <textarea
+                    name="comment"
+                    class="textarea is-info"
+                    id="comment"
+                    placeholder="Enter your comment"
+                  >
+ <%= comment.comment %>  </textarea
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <button class="button is-primary">Submit</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <!-- Back to Index Button -->
+        <a href="/comments" class="button is-link">Back to Index</a>
+      </div>
+    </section>
+  </body>
+</html>
