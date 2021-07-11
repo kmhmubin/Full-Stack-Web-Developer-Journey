@@ -9,22 +9,14 @@ app.set("view engine", "ejs");
 
 // dummy comments
 const comments = [
+  { id: 1, username: "Todd", comment: "LOL that is so funny!" },
   {
-    username: "Todd",
-    comment: "LOL that is so funny!",
-  },
-  {
+    id: 2,
     username: "Skyler",
     comment: "I like to go birdwathching with my cat",
   },
-  {
-    username: "Sk8erBoi",
-    comment: "Plz delete your account, Todd",
-  },
-  {
-    username: "onlysaysMeoww",
-    comment: "meoww meoww meoww",
-  },
+  { id: 3, username: "Sk8erBoi", comment: "Plz delete your account, Todd" },
+  { id: 4, username: "onlysaysMeoww", comment: "meoww meoww meoww" },
 ];
 
 // base request for comments url
@@ -42,6 +34,13 @@ app.post("/comments", (req, res) => {
   const { username, comment } = req.body;
   comments.push({ username, comment });
   res.redirect("/comments");
+});
+
+// get the comment id from the url
+app.get("/comments/:id", (req, res) => {
+  const { id } = req.params;
+  const comment = comments.find((c) => c.id === parseInt(id));
+  res.render("comments/show", { comment });
 });
 
 app.listen(3000, () => {
