@@ -21,6 +21,7 @@ mongoose
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 
 // Set up routes
 app.get("/", async (req, res) => {
@@ -33,6 +34,17 @@ app.get("/", async (req, res) => {
 app.get("/products", async (req, res) => {
   const products = await Product.find({});
   res.render("products/index", { products });
+});
+// set up RESTful route for new product
+app.get("/products/new", (req, res) => {
+  res.render("products/new");
+});
+
+// set up RESTful route to get new product details
+app.post("/products", async (req, res) => {
+  const newProduct = new Product(req.body);
+  await newProduct.save();
+  res.redirect("/products");
 });
 
 // set up RESTful routes for product by id

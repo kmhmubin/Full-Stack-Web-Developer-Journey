@@ -13,7 +13,10 @@
   <body>
     <main class="container m-5">
       <h1 class="is-size-1 has-text-centered">All Products</h1>
-      <div class="section">
+      <section class="section">
+        <a href="/products/new" class="button is-success">Add New Product</a>
+      </section>
+      <section class="section">
         <ul class="">
           <% for(let product of products) {%>
           <li>
@@ -34,7 +37,7 @@
           </li>
           <% } %>
         </ul>
-      </div>
+      </section>
     </main>
   </body>
 </html>
