@@ -5,14 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Products</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
   </head>
   <body>
-    <h1>All Products</h1>
-
-    <ul>
-      <% for(let product of products) {%>
-      <li><%= product.name %></li>
-      <% } %>
-    </ul>
+    <main class="container m-5">
+      <h1 class="is-size-1 has-text-centered">All Products</h1>
+      <div class="section">
+        <ul class="">
+          <% for(let product of products) {%>
+          <li>
+            <a href="/products/<%= product._id %>">
+              <div class="card m-2 p-2">
+                <div class="card-content">
+                  <p class="title"><%= product.name %></p>
+                </div>
+                <footer class="card-footer">
+                  <a
+                    href="/products/<%= product._id %>"
+                    class="card-footer-item"
+                    >View</a
+                  >
+                </footer>
+              </div>
+            </a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+    </main>
   </body>
 </html>
