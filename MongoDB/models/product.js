@@ -7,6 +7,7 @@ const ProductSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
+    lowercase: true,
     enum: ["fruit", "vegetable", "dairy"],
   },
   createdAt: { type: Date, default: Date.now },
