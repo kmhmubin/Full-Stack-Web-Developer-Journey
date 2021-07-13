@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 
 // import product model
 const Product = require("./models/product");
@@ -22,6 +23,7 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 // Set up routes
 app.get("/", async (req, res) => {
@@ -51,6 +53,20 @@ app.post("/products", async (req, res) => {
 app.get("/products/:id", async (req, res) => {
   const product = await Product.findById(req.params.id);
   res.render("products/show", { product });
+});
+
+// set up RESTful route to edit product details
+app.get("/products/:id/edit", async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  res.render("products/edit", { product });
+});
+
+// set up RESTful route to update product details
+app.put("/products/:id", async (req, res) => {
+  const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    runValidators: true,
+  });
+  res.redirect("/products/" + product._id);
 });
 
 // app listen port 3000
