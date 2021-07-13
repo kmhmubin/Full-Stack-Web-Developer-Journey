@@ -25,6 +25,9 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+// categories
+const categories = ["fruit", "vegetable", "dairy"];
+
 // Set up routes
 app.get("/", async (req, res) => {
   const products = await Product.find({});
@@ -39,7 +42,7 @@ app.get("/products", async (req, res) => {
 });
 // set up RESTful route for new product
 app.get("/products/new", (req, res) => {
-  res.render("products/new");
+  res.render("products/new", { categories });
 });
 
 // set up RESTful route to get new product details
@@ -58,7 +61,7 @@ app.get("/products/:id", async (req, res) => {
 // set up RESTful route to edit product details
 app.get("/products/:id/edit", async (req, res) => {
   const product = await Product.findById(req.params.id);
-  res.render("products/edit", { product });
+  res.render("products/edit", { product, categories });
 });
 
 // set up RESTful route to update product details

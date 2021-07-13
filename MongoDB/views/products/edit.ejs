@@ -48,9 +48,9 @@
             <div class="control">
               <div class="select">
                 <select name="category" id="category">
-                  <option value="fruit">Fruit</option>
-                  <option value="vegetable">Vagetable</option>
-                  <option value="dairy">Dairy</option>
+                  <% for(let category of categories) {%>
+                  <option value="<%= category %> " <%= product.category === category ? 'selected': '' %>  ><%= category %></option>
+                  <% } %>
                 </select>
               </div>
             </div>
