@@ -36,6 +36,12 @@
                     class="card-footer-item"
                     >Edit</a
                   >
+                  <form
+                    action="/products/<%= product.id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <button class="card-footer-item">Delete</button>
+                  </form>
                 </footer>
               </div>
             </a>

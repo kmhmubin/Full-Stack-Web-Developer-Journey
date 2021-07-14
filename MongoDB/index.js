@@ -72,6 +72,12 @@ app.put("/products/:id", async (req, res) => {
   res.redirect("/products/" + product._id);
 });
 
+// set up RESTful route to delete product
+app.delete("/products/:id", async (req, res) => {
+  const product = await Product.findByIdAndRemove(req.params.id);
+  res.redirect("/products");
+});
+
 // app listen port 3000
 app.listen(3000, () => {
   console.log("app listen port 3000");
