@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Products</title>
+    <title><%= category %> Products</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
@@ -12,9 +12,12 @@
   </head>
   <body>
     <main class="container m-5">
-      <h1 class="is-size-1 has-text-centered">All Products</h1>
+      <h1 class="is-size-1 has-text-centered"><%= category %> Products</h1>
       <section class="section">
         <a href="/products/new" class="button is-success">Add New Product</a>
+        <% if (category !== 'All') { %>
+        <a href="/products" class="button is-primary"> All Products</a>
+        <% } %>
       </section>
       <section class="section">
         <ul class="">

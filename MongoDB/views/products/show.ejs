@@ -16,7 +16,10 @@
         <h1 class="title"><%= product.name %></h1>
         <p class="subtitle">Price: <strong>$<%= product.price %> </strong></p>
         <p class="subtitle">
-          Category: <strong><%= product.category %> </strong>
+          Category:
+          <a href="/products?category=<%= product.category %>"
+            ><strong><%= product.category %> </strong></a
+          >
         </p>
       </section>
       <a href="/products" class="button is-primary">Back to All Products</a>
