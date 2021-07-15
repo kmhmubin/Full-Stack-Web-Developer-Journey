@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 // Schema Definition
 const CampgroundSchema = new Schema({
-  title: string,
-  description: string,
-  location: string,
+  title: String,
+  price: Number,
+  description: String,
+  location: String,
 });
 
 // Export the Mongoose model
