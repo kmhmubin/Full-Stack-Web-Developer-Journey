@@ -29,14 +29,10 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-// set up the new campground route
-app.get("/makecampground", async (req, res) => {
-  const camp = new Campground({
-    title: "My Backyard",
-    description: "Cheap camping!",
-  });
-  await camp.save();
-  res.send(camp);
+// set up the route for campground
+app.get("/campground", async (req, res) => {
+  const campgrounds = await Campground.find({});
+  res.render("campgrounds/index", { campgrounds });
 });
 
 // Set up the server
