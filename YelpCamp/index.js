@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
+
 // import mongoose models
 const Campground = require("./models/campground");
 
@@ -20,6 +22,9 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("Connected to mongoDB");
 });
+
+// use ejs-locals for ejs templates
+app.engine("ejs", ejsMate);
 
 // set up the view engine
 app.set("view engine", "ejs");
