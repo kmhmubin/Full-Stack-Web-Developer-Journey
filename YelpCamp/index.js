@@ -24,6 +24,9 @@ db.once("open", () => {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// url encodeed
+app.use(express.urlencoded({ extended: true }));
+
 // set up the RESTful root route
 app.get("/", (req, res) => {
   res.render("index");
@@ -33,6 +36,18 @@ app.get("/", (req, res) => {
 app.get("/campgrounds", async (req, res) => {
   const campgrounds = await Campground.find({});
   res.render("campgrounds/index", { campgrounds });
+});
+
+// set up the RESTful route for new campground
+app.get("/campgrounds/new", (req, res) => {
+  res.render("campgrounds/new");
+});
+
+// set up the RESTful route for new campground post
+app.post("/campgrounds", async (req, res) => {
+  const campground = new Campground(req.body.campground);
+  await campground.save();
+  res.redirect(`/campgrounds/${campground._id}`);
 });
 
 // set up the RESTful route for campground show
