@@ -24,15 +24,21 @@ db.once("open", () => {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// set up the root route
+// set up the RESTful root route
 app.get("/", (req, res) => {
   res.render("index");
 });
 
-// set up the route for campground
-app.get("/campground", async (req, res) => {
+// set up the RESTful route for campground
+app.get("/campgrounds", async (req, res) => {
   const campgrounds = await Campground.find({});
   res.render("campgrounds/index", { campgrounds });
+});
+
+// set up the RESTful route for campground show
+app.get("/campgrounds/:id", async (req, res) => {
+  const campground = await Campground.findById(req.params.id);
+  res.render("campgrounds/show", { campground });
 });
 
 // Set up the server
