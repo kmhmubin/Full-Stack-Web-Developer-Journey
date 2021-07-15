@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 // import mongoose models
 const Campground = require("./models/campground");
 
@@ -26,6 +27,8 @@ app.set("views", path.join(__dirname, "views"));
 
 // url encodeed
 app.use(express.urlencoded({ extended: true }));
+// override POST method
+app.use(methodOverride("_method"));
 
 // set up the RESTful root route
 app.get("/", (req, res) => {
@@ -54,6 +57,30 @@ app.post("/campgrounds", async (req, res) => {
 app.get("/campgrounds/:id", async (req, res) => {
   const campground = await Campground.findById(req.params.id);
   res.render("campgrounds/show", { campground });
+});
+
+// set up the RESTful route for campground edit
+app.get("/campgrounds/:id/edit", async (req, res) => {
+  const campground = await Campground.findById(req.params.id);
+  res.render("campgrounds/edit", { campground });
+});
+
+// set up the RESTful route for campground update
+app.put("/campgrounds/:id", async (req, res) => {
+  const campground = await Campground.findByIdAndUpdate(
+    req.params.id,
+    req.body.campground,
+    {
+      new: true,
+    }
+  );
+  res.redirect(`/campgrounds/${campground._id}`);
+});
+
+// set up the RESTful route for campground delete
+app.delete("/campgrounds/:id", async (req, res) => {
+  const campground = await Campground.findByIdAndDelete(req.params.id);
+  res.redirect("/campgrounds");
 });
 
 // Set up the server
