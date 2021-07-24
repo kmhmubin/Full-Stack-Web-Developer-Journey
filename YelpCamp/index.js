@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressError");
 
 // import mongoose models
 const Campground = require("./models/campground");
@@ -52,40 +54,68 @@ app.get("/campgrounds/new", (req, res) => {
 });
 
 // set up the RESTful route for new campground post
-app.post("/campgrounds", async (req, res) => {
-  const campground = new Campground(req.body.campground);
-  await campground.save();
-  res.redirect(`/campgrounds/${campground._id}`);
-});
+app.post(
+  "/campgrounds",
+  catchAsync(async (req, res, next) => {
+    if (!req.body.campground)
+      throw new ExpressError("Invalid Input Data!!", 400);
+    const campground = new Campground(req.body.campground);
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+  })
+);
 
 // set up the RESTful route for campground show
-app.get("/campgrounds/:id", async (req, res) => {
-  const campground = await Campground.findById(req.params.id);
-  res.render("campgrounds/show", { campground });
-});
+app.get(
+  "/campgrounds/:id",
+  catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render("campgrounds/show", { campground });
+  })
+);
 
 // set up the RESTful route for campground edit
-app.get("/campgrounds/:id/edit", async (req, res) => {
-  const campground = await Campground.findById(req.params.id);
-  res.render("campgrounds/edit", { campground });
-});
+app.get(
+  "/campgrounds/:id/edit",
+  catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render("campgrounds/edit", { campground });
+  })
+);
 
 // set up the RESTful route for campground update
-app.put("/campgrounds/:id", async (req, res) => {
-  const campground = await Campground.findByIdAndUpdate(
-    req.params.id,
-    req.body.campground,
-    {
-      new: true,
-    }
-  );
-  res.redirect(`/campgrounds/${campground._id}`);
-});
+app.put(
+  "/campgrounds/:id",
+  catchAsync(async (req, res) => {
+    const campground = await Campground.findByIdAndUpdate(
+      req.params.id,
+      req.body.campground,
+      {
+        new: true,
+      }
+    );
+    res.redirect(`/campgrounds/${campground._id}`);
+  })
+);
 
 // set up the RESTful route for campground delete
-app.delete("/campgrounds/:id", async (req, res) => {
-  const campground = await Campground.findByIdAndDelete(req.params.id);
-  res.redirect("/campgrounds");
+app.delete(
+  "/campgrounds/:id",
+  catchAsync(async (req, res) => {
+    const campground = await Campground.findByIdAndDelete(req.params.id);
+    res.redirect("/campgrounds");
+  })
+);
+
+// url not found
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Not Found", 404));
+});
+
+// error handler
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Something went wrong" } = err;
+  res.status(status).send(message);
 });
 
 // Set up the server
