@@ -114,8 +114,9 @@ app.all("*", (req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Something went wrong" } = err;
-  res.status(status).send(message);
+  const { status = 500 } = err;
+  if (!err.message) err.message = "Something went wrong";
+  res.status(status).render("error", { err });
 });
 
 // Set up the server
