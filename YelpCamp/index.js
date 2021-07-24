@@ -4,12 +4,13 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
-
+const { campgroundSchema } = require("./schemas.js");
 // import mongoose models
 const Campground = require("./models/campground");
 
 const app = express();
 const path = require("path");
+const { lstat } = require("fs");
 
 // Connect to database
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
@@ -37,6 +38,17 @@ app.use(express.urlencoded({ extended: true }));
 // override POST method
 app.use(methodOverride("_method"));
 
+// backend middleware validation
+const validateCampground = (req, res, next) => {
+  const { error } = campgroundSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(", ");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
 // set up the RESTful root route
 app.get("/", (req, res) => {
   res.render("index");
@@ -56,9 +68,8 @@ app.get("/campgrounds/new", (req, res) => {
 // set up the RESTful route for new campground post
 app.post(
   "/campgrounds",
+  validateCampground,
   catchAsync(async (req, res, next) => {
-    if (!req.body.campground)
-      throw new ExpressError("Invalid Input Data!!", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
@@ -86,6 +97,7 @@ app.get(
 // set up the RESTful route for campground update
 app.put(
   "/campgrounds/:id",
+  validateCampground,
   catchAsync(async (req, res) => {
     const campground = await Campground.findByIdAndUpdate(
       req.params.id,
