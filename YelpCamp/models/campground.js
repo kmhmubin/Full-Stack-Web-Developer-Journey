@@ -8,6 +8,12 @@ const CampgroundSchema = new Schema({
   price: Number,
   description: String,
   location: String,
+  review: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 // Export the Mongoose model
