@@ -4,7 +4,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
-const { campgroundSchema } = require("./schemas.js");
+const { campgroundSchema, reviewSchema } = require("./schemas.js");
 // import mongoose models
 const Campground = require("./models/campground");
 const Review = require("./models/review");
@@ -39,9 +39,20 @@ app.use(express.urlencoded({ extended: true }));
 // override POST method
 app.use(methodOverride("_method"));
 
-// backend middleware validation
+// backend middleware Campground form validation
 const validateCampground = (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(", ");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+// backend middleware Review form validation
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(", ");
     throw new ExpressError(msg, 400);
@@ -123,6 +134,7 @@ app.delete(
 // set up the RESTful route for campground review
 app.post(
   "/campgrounds/:id/reviews",
+  validateReview,
   catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
