@@ -147,6 +147,18 @@ app.post(
   })
 );
 
+// set up the RESTful route for campground review delete
+app.delete(
+  "/campgrounds/:id/reviews/:reviewId",
+  catchAsync(async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = await Review.findByIdAndDelete(req.params.reviewId);
+    campground.reviews.pull(review);
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+  })
+);
+
 // url not found
 app.all("*", (req, res, next) => {
   next(new ExpressError("Not Found", 404));
