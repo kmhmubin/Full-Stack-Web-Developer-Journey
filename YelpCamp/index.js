@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const ExpressError = require("./utils/ExpressError");
 
@@ -62,6 +63,16 @@ const sessionConfig = {
 
 // set up session
 app.use(session(sessionConfig));
+
+// set up flash messages
+app.use(flash());
+
+// middlware for flash messages
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // use campground router
 app.use("/campgrounds", campgrounds);
