@@ -43,6 +43,9 @@ app.use(express.urlencoded({ extended: true }));
 // override POST method
 app.use(methodOverride("_method"));
 
+// set up static files
+app.use(express.static(path.join(__dirname, "public")));
+
 // use campground router
 app.use("/campgrounds", campgrounds);
 
