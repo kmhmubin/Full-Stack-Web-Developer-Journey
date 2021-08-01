@@ -9,6 +9,9 @@ const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const Campground = require("./models/campground");
 const Review = require("./models/review");
 
+// campground router
+const campgrounds = require("./routes/campgrounds");
+
 const app = express();
 const path = require("path");
 const { lstat } = require("fs");
@@ -61,77 +64,13 @@ const validateReview = (req, res, next) => {
   }
 };
 
+// campground router
+app.use("/campgrounds", campgrounds);
+
 // set up the RESTful root route
 app.get("/", (req, res) => {
   res.render("index");
 });
-
-// set up the RESTful route for campground
-app.get("/campgrounds", async (req, res) => {
-  const campgrounds = await Campground.find({});
-  res.render("campgrounds/index", { campgrounds });
-});
-
-// set up the RESTful route for new campground
-app.get("/campgrounds/new", (req, res) => {
-  res.render("campgrounds/new");
-});
-
-// set up the RESTful route for new campground post
-app.post(
-  "/campgrounds",
-  validateCampground,
-  catchAsync(async (req, res, next) => {
-    const campground = new Campground(req.body.campground);
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`);
-  })
-);
-
-// set up the RESTful route for campground show
-app.get(
-  "/campgrounds/:id",
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate(
-      "reviews"
-    );
-    res.render("campgrounds/show", { campground });
-  })
-);
-
-// set up the RESTful route for campground edit
-app.get(
-  "/campgrounds/:id/edit",
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    res.render("campgrounds/edit", { campground });
-  })
-);
-
-// set up the RESTful route for campground update
-app.put(
-  "/campgrounds/:id",
-  validateCampground,
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findByIdAndUpdate(
-      req.params.id,
-      req.body.campground,
-      {
-        new: true,
-      }
-    );
-    res.redirect(`/campgrounds/${campground._id}`);
-  })
-);
-
-// set up the RESTful route for campground delete
-app.delete(
-  "/campgrounds/:id",
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findByIdAndDelete(req.params.id);
-    res.redirect("/campgrounds");
-  })
-);
 
 // set up the RESTful route for campground review
 app.post(
