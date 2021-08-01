@@ -2,15 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
-const { campgroundSchema, reviewSchema } = require("./schemas.js");
+
 // import mongoose models
 const Campground = require("./models/campground");
 const Review = require("./models/review");
 
 // campground router
 const campgrounds = require("./routes/campgrounds");
+// review router
+const reviews = require("./routes/reviews");
 
 const app = express();
 const path = require("path");
@@ -42,61 +43,16 @@ app.use(express.urlencoded({ extended: true }));
 // override POST method
 app.use(methodOverride("_method"));
 
-// backend middleware Campground form validation
-const validateCampground = (req, res, next) => {
-  const { error } = campgroundSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(", ");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
-// backend middleware Review form validation
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(", ");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
-// campground router
+// use campground router
 app.use("/campgrounds", campgrounds);
+
+// use review router
+app.use("/campgrounds/:id/reviews", reviews);
 
 // set up the RESTful root route
 app.get("/", (req, res) => {
   res.render("index");
 });
-
-// set up the RESTful route for campground review
-app.post(
-  "/campgrounds/:id/reviews",
-  validateReview,
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    const review = new Review(req.body.review);
-    campground.reviews.push(review);
-    await review.save();
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`);
-  })
-);
-
-// set up the RESTful route for campground review delete
-app.delete(
-  "/campgrounds/:id/reviews/:reviewId",
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    const review = await Review.findByIdAndDelete(req.params.reviewId);
-    campground.reviews.pull(review);
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`);
-  })
-);
 
 // url not found
 app.all("*", (req, res, next) => {
