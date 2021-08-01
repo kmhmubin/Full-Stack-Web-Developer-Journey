@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const session = require("express-session");
+
 const ExpressError = require("./utils/ExpressError");
 
 // import mongoose models
@@ -45,6 +47,21 @@ app.use(methodOverride("_method"));
 
 // set up static files
 app.use(express.static(path.join(__dirname, "public")));
+
+// session config
+const sessionConfig = {
+  secret: "yelp-camp",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+    expires: new Date(Date.now() + 60 * 60 * 1000),
+    httpOnly: true,
+  },
+};
+
+// set up session
+app.use(session(sessionConfig));
 
 // use campground router
 app.use("/campgrounds", campgrounds);
