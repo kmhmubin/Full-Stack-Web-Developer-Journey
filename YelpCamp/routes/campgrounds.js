@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const methodOverride = require("method-override");
 const Campground = require("../models/campground");
 const { campgroundSchema } = require("../schemas.js");
+const { isLoggedIn } = require("../middleware");
 
 // backend middleware Campground form validation
 const validateCampground = (req, res, next) => {
@@ -24,7 +26,7 @@ router.get("/", async (req, res) => {
 });
 
 // set up the RESTful route for new campground
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 
