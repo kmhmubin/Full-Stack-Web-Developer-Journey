@@ -33,6 +33,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 // set up the RESTful route for new campground post
 router.post(
   "/",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     const campground = new Campground(req.body.campground);

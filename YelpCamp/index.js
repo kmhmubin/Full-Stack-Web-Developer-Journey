@@ -72,13 +72,6 @@ app.use(session(sessionConfig));
 // set up flash messages
 app.use(flash());
 
-// middlware for flash messages
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
-
 // passport config
 app.use(passport.initialize());
 app.use(passport.session());
@@ -87,6 +80,14 @@ app.use(passport.session());
 passport.use(new passportLocal.Strategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// middlware for flash messages and current user
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // use UserRouter
 app.use("/", UserRouter);
