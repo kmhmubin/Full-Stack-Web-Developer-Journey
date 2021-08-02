@@ -10,14 +10,16 @@ const passportLocal = require("passport-local");
 const ExpressError = require("./utils/ExpressError");
 
 // import mongoose models
+const User = require("./models/user");
 const Campground = require("./models/campground");
 const Review = require("./models/review");
-const User = require("./models/user");
 
+// User route
+const UserRouter = require("./routes/users");
 // campground router
-const campgrounds = require("./routes/campgrounds");
+const campgroundRouter = require("./routes/campgrounds");
 // review router
-const reviews = require("./routes/reviews");
+const reviewsRouter = require("./routes/reviews");
 
 const app = express();
 const path = require("path");
@@ -84,12 +86,16 @@ app.use(passport.session());
 // passport local strategy
 passport.use(new passportLocal.Strategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// use UserRouter
+app.use("/", UserRouter);
 
 // use campground router
-app.use("/campgrounds", campgrounds);
+app.use("/campgrounds", campgroundRouter);
 
 // use review router
-app.use("/campgrounds/:id/reviews", reviews);
+app.use("/campgrounds/:id/reviews", reviewsRouter);
 
 // set up the RESTful root route
 app.get("/", (req, res) => {
