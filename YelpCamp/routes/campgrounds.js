@@ -37,6 +37,7 @@ router.post(
   validateCampground,
   catchAsync(async (req, res, next) => {
     const campground = new Campground(req.body.campground);
+    campground.author = req.user._id;
     await campground.save();
     req.flash("success", "Campground created!");
     res.redirect(`/campgrounds/${campground._id}`);
@@ -61,6 +62,7 @@ router.get(
 // set up the RESTful route for campground edit
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/edit", { campground });
@@ -70,6 +72,7 @@ router.get(
 // set up the RESTful route for campground update
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res) => {
     const campground = await Campground.findByIdAndUpdate(
@@ -87,6 +90,7 @@ router.put(
 // set up the RESTful route for campground delete
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const campground = await Campground.findByIdAndDelete(req.params.id);
     req.flash("success", "Campground deleted!");
