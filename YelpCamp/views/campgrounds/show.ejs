@@ -43,6 +43,7 @@
 
   <!-- Review Section -->
   <div class="col-6">
+    <% if(currentUser) { %>
     <!-- Review section -->
     <h2 class="h2">Leave a review</h2>
     <form
@@ -74,6 +75,7 @@
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
+    <% } %>
     <!-- Review text section -->
     <% for(let review of campground.reviews) { %>
     <div class="mb-3">
