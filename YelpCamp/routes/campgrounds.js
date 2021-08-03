@@ -23,7 +23,7 @@ router.get("/new", isLoggedIn, catchAsync(campgroundsController.renderNewForm));
 // RESTful route for show, update, and delete campgrounds
 router
   .route("/:id")
-  .get(catchAsync(campgroundsController.showCampgroud))
+  .get(catchAsync(campgroundsController.showCampground))
   .put(
     isLoggedIn,
     isAuthor,
