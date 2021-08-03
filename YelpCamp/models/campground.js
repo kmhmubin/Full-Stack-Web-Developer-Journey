@@ -3,10 +3,21 @@ const Schema = mongoose.Schema;
 const passport = require("passport");
 const Review = require("./review");
 
+// image schema
+const imageSchema = new Schema({
+  url: String,
+  filename: String,
+});
+
+// image schema for thumbnail
+imageSchema.virtual("thumbnail").get(function () {
+  return this.url.replace("/upload", "/upload/w_200");
+});
+
 // Schema Definition
 const CampgroundSchema = new Schema({
   title: String,
-  image: String,
+  images: [imageSchema],
   price: Number,
   description: String,
   location: String,
