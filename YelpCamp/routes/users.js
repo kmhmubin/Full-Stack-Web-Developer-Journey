@@ -1,60 +1,30 @@
 const express = require("express");
+const router = express.Router();
 const passport = require("passport");
-const route = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/user");
+const userController = require("../controllers/users");
 
-// register route
-route.get("/register", (req, res) => {
-  res.render("users/register");
-});
+// RESTful route for registering a new user
+router
+  .route("/register")
+  .get(userController.renderRegister)
+  .post(catchAsync(userController.register));
 
-// register new user
-route.post(
-  "/register",
-  catchAsync(async (req, res, next) => {
-    try {
-      const { email, username, password } = req.body;
-      const user = new User({ email, username });
-      const registerdUser = await User.register(user, password);
-      req.login(registerdUser, (err) => {
-        if (err) return next(err);
-        req.flash("success", "You have successfully registered");
-        res.redirect("/campgrounds");
-      });
-    } catch (err) {
-      req.flash("error", err.message);
-      res.redirect("/register");
-    }
-  })
-);
+// RESTful route for logging in a user
+router
+  .route("/login")
+  .get(userController.renderLogin)
+  .post(
+    passport.authenticate("local", {
+      failureFlash: true,
+      failureRedirect: "/login",
+    }),
+    userController.login
+  );
 
-// login route
-route.get("/login", (req, res) => {
-  res.render("users/login");
-});
-
-// login user
-route.post(
-  "/login",
-  passport.authenticate("local", {
-    failureFlash: true,
-    failureRedirect: "/login",
-  }),
-  (req, res) => {
-    req.flash("success", "You have successfully logged in");
-    const redirect = req.session.returnTo || "/campgrounds";
-    delete req.session.returnTo;
-    res.redirect("/campgrounds");
-  }
-);
-
-// logout route
-route.get("/logout", (req, res) => {
-  req.logout();
-  req.flash("success", "You have successfully logged out");
-  res.redirect("/campgrounds");
-});
+// RESTful route for logging out a user
+router.get("/logout", userController.logout);
 
 // export route
-module.exports = route;
+module.exports = router;
