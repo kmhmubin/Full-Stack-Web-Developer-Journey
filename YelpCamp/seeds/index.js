@@ -27,10 +27,19 @@ const seedDB = async () => {
       author: "610800db3d9d6322d4e54400",
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
-      image: "https://source.unsplash.com/collection/10586465",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum iusto tenetur architecto ipsum mollitia doloremque eaque sunt veniam, explicabo unde?",
+        "Camping is a leisurivity, usually during summer when school children are on holiday, where people leave their homes and spend one or more nights outdoors. Usually they seek nature, adventure, or a different environment. They may sleep in a campervan or trailer, a tent, or in the open air in good weather. Winter camping is less common but in some parts of the world, tents are people's homes year around. Rich people began camping for fun in the early 20th century. When more people could afford it, many more did it. When camping, people usually prepare food to eat that is easy to make. If they were hunting or fishing, they may cook the animal or fish they caught over a campfire.",
       price,
+      images: [
+        {
+          url: "https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ahfnenvca4tha00h2ubt.png",
+          filename: "YelpCamp/ahfnenvca4tha00h2ubt",
+        },
+        {
+          url: "https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ruyoaxgf72nzpi4y6cdi.png",
+          filename: "YelpCamp/ruyoaxgf72nzpi4y6cdi",
+        },
+      ],
     });
     await camp.save();
   }
