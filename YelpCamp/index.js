@@ -10,6 +10,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const passportLocal = require("passport-local");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const ExpressError = require("./utils/ExpressError");
 
@@ -57,6 +58,9 @@ app.use(methodOverride("_method"));
 
 // set up static files
 app.use(express.static(path.join(__dirname, "public")));
+
+// To remove data, use:
+app.use(mongoSanitize());
 
 // session config
 const sessionConfig = {
