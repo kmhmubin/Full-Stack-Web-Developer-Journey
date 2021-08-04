@@ -99,7 +99,7 @@ const scriptSrcUrls = [
 ];
 const styleSrcUrls = [
   "https://kit-free.fontawesome.com/",
-  "https://stackpath.bootstrapcdn.com/",
+  "https://cdn.jsdelivr.net/",
   "https://api.mapbox.com/",
   "https://api.tiles.mapbox.com/",
   "https://fonts.googleapis.com/",
@@ -125,7 +125,8 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "https://res.cloudinary.com/douqbebwk/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://res.cloudinary.com/douqbebwk/",
+        "https://res.cloudinary.com/coderuseless/",
         "https://images.unsplash.com/",
       ],
       fontSrc: ["'self'", ...fontSrcUrls],
