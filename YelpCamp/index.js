@@ -5,20 +5,19 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const flash = require("connect-flash");
+const ExpressError = require("./utils/ExpressError");
+const methodOverride = require("method-override");
 const passport = require("passport");
 const passportLocal = require("passport-local");
-const ExpressError = require("./utils/ExpressError");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
+const MongoStore = require("connect-mongo");
 
 // import mongoose models
 const User = require("./models/user");
-const Campground = require("./models/campground");
-const Review = require("./models/review");
 
 // User route
 const UserRouter = require("./routes/users");
@@ -27,14 +26,14 @@ const campgroundRouter = require("./routes/campgrounds");
 // review router
 const reviewsRouter = require("./routes/reviews");
 
-const app = express();
-const { lstat } = require("fs");
+// MongoDB Altast URL process.env.MONGODB_URL ||
+const dbUrl = "mongodb://localhost:27017/yelp-camp";
 
 // Connect to database
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
   useCreateIndex: true,
+  useUnifiedTopology: true,
 });
 
 // Connect to mongoose db
@@ -43,6 +42,9 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("Connected to mongoDB");
 });
+
+// Create express app
+const app = express();
 
 // use ejs-locals for ejs templates
 app.engine("ejs", ejsMate);
@@ -66,21 +68,27 @@ app.use(
   })
 );
 
-// session config
-const sessionConfig = {
-  name: "session",
-  secret: "yelp-camp",
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-    expires: new Date(Date.now() + 60 * 60 * 1000),
-    httpOnly: true,
-  },
-};
+// declare session secret
+const secret = process.env.SECRET || "yelp-camp";
 
-// set up session
-app.use(session(sessionConfig));
+// set up session and store in mongodb using mongo-connect
+app.use(
+  session({
+    secret,
+    saveUninitialized: false,
+    resave: false,
+    store: MongoStore.create({
+      mongoUrl: dbUrl,
+      collection: "sessions",
+      touchAfter: 24 * 60 * 60,
+    }),
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    },
+  })
+);
 
 // set up flash messages
 app.use(flash());
@@ -125,7 +133,6 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "https://res.cloudinary.com/douqbebwk/",
         "https://res.cloudinary.com/coderuseless/",
         "https://images.unsplash.com/",
       ],
