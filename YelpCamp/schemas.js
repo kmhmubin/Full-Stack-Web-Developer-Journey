@@ -1,7 +1,5 @@
-const Joi = require("joi");
-const sanitizeHtml = require("sanitize-html");
+const BaseJoi = require("joi");
 
-// sanitize html with xss-filters
 const extension = (joi) => ({
   type: "string",
   base: joi.string(),
@@ -25,8 +23,6 @@ const extension = (joi) => ({
 
 const Joi = BaseJoi.extend(extension);
 
-// backend from validation for campground schema
-
 module.exports.campgroundSchema = Joi.object({
   campground: Joi.object({
     title: Joi.string().required().escapeHTML(),
@@ -36,8 +32,6 @@ module.exports.campgroundSchema = Joi.object({
   }).required(),
   deleteImages: Joi.array(),
 });
-
-// backend form validation using joi
 
 module.exports.reviewSchema = Joi.object({
   review: Joi.object({
