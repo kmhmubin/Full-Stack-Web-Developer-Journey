@@ -44,7 +44,7 @@ router
 
 // RESTful route for edit campgrounds
 router.get(
-  ":/id/edit",
+  "/:id/edit",
   isLoggedIn,
   isAuthor,
   catchAsync(campgroundsController.renderEditForm)
