@@ -26,8 +26,8 @@ const campgroundRouter = require("./routes/campgrounds");
 // review router
 const reviewsRouter = require("./routes/reviews");
 
-// MongoDB Altast URL process.env.MONGODB_URL ||
-const dbUrl = "mongodb://localhost:27017/yelp-camp";
+// MongoDB Altast URL
+const dbUrl = process.env.MONGODB_URL || "mongodb://localhost:27017/yelp-camp";
 
 // Connect to database
 mongoose.connect(dbUrl, {
