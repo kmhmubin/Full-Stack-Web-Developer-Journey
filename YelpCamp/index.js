@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -10,13 +11,14 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const passportLocal = require("passport-local");
-const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
-
 const ExpressError = require("./utils/ExpressError");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
 
 // import mongoose models
 const User = require("./models/user");
+const Campground = require("./models/campground");
+const Review = require("./models/review");
 
 // User route
 const UserRouter = require("./routes/users");
@@ -26,7 +28,7 @@ const campgroundRouter = require("./routes/campgrounds");
 const reviewsRouter = require("./routes/reviews");
 
 const app = express();
-const path = require("path");
+const { lstat } = require("fs");
 
 // Connect to database
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
@@ -57,7 +59,7 @@ app.use(methodOverride("_method"));
 // set up static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// To remove data using sanitize
+// mongoose sanitize
 app.use(
   mongoSanitize({
     replaceWith: "_",
@@ -83,10 +85,10 @@ app.use(session(sessionConfig));
 // set up flash messages
 app.use(flash());
 
-// http security
+// helmet security
 app.use(helmet());
 
-// set up security
+// helmet security for static files
 const scriptSrcUrls = [
   "https://stackpath.bootstrapcdn.com/",
   "https://api.tiles.mapbox.com/",
