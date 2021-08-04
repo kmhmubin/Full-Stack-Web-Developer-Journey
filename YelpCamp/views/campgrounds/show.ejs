@@ -78,10 +78,17 @@
     </div>
   </div>
 
-  <!-- Review Section -->
+  <!-- Map & Review Section -->
   <div class="col-6">
-    <% if(currentUser) { %>
+    <!-- show map location -->
+    <div class="card mb-3 shadow p-1 rounded">
+      <div class="card-body">
+        <div id="map" style="width: 100%; height: 300px"></div>
+      </div>
+    </div>
+
     <!-- Review section -->
+    <% if(currentUser) { %>
     <h2 class="h2">Leave a review</h2>
     <form
       action="/campgrounds/<%= campground._id %>/reviews"
@@ -178,3 +185,10 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+  const campground = <%- JSON.stringify(campground) %>;
+</script>
+
+<script src="/js/showMap.js"></script>
