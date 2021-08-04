@@ -30,6 +30,10 @@ const seedDB = async () => {
       description:
         "Camping is a leisurivity, usually during summer when school children are on holiday, where people leave their homes and spend one or more nights outdoors. Usually they seek nature, adventure, or a different environment. They may sleep in a campervan or trailer, a tent, or in the open air in good weather. Winter camping is less common but in some parts of the world, tents are people's homes year around. Rich people began camping for fun in the early 20th century. When more people could afford it, many more did it. When camping, people usually prepare food to eat that is easy to make. If they were hunting or fishing, they may cook the animal or fish they caught over a campfire.",
       price,
+      geometry: {
+        type: "Point",
+        coordinates: [-113.1331, 47.0202],
+      },
       images: [
         {
           url: "https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ahfnenvca4tha00h2ubt.png",
