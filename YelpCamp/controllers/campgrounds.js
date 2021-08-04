@@ -60,11 +60,11 @@ module.exports.updateCampground = async (req, res) => {
   const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });
-  const imgages = req.files.map((file) => ({
+  const images = req.files.map((file) => ({
     url: file.path,
     filename: file.filename,
   }));
-  campground.images.push(...imgages);
+  campground.images.push(...images);
   await campground.save();
   if (req.body.deleteImages) {
     for (let filename of req.body.deleteImages) {
