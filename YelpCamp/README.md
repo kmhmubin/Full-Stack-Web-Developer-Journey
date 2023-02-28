@@ -1,6 +1,6 @@
 # Project Name: Yelp Camp
 
-A Node.js power web application from the Udemy course - The Web Developer Bootcamp by Colt Steele. It is a web application designed to add, rate and review different campgrounds, different users(read campers) can put in their comments and concerns, so that it is a well informed and well prepared camping trip for other users.
+It is a web application designed to add, rate and review different campgrounds, different users(read campers) can put in their comments and concerns, so that it is a well informed and well prepared camping trip for other users.
 
 ## Live Demo
 
